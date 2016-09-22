@@ -1,2 +1,2 @@
-# biz.jmaconsulting.click-to-call
+# biz.jmaconsulting.clicktocall
 Click to Call extension for CiviCRM
