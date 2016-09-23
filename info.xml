@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <extension key="biz.jmaconsulting.clicktocall" type="module">
   <file>clicktocall</file>
-  <name>FIXME</name>
-  <description>FIXME</description>
+  <name>Click to Call - Using Twilio</name>
+  <description>This extension changes the display of the phone numbers in the profiles (or phone and extension number fields) so that they cause a VoIP call to be made connecting the primary number of the calling contact with the respondent's number that is clicked.</description>
   <license>AGPL-3.0</license>
   <maintainer>
     <author>Edsel</author>
