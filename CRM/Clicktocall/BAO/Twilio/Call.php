@@ -33,10 +33,28 @@
  * $Id$
  *
  */
-class CRM_Clicktocall_BAO_Call {
+class CRM_Clicktocall_BAO_Twilio_Call implements CRM_Clicktocall_BAO_ClickToCallAPI {
 
-  public static function call() {
+  public static function create($number, $twilio, $host) {
 
+    $client = new Twilio\Rest\Client(
+      $twilio['twilio_account_sid'],
+      $twilio['twilio_auth_token']
+    );
+
+    try {
+      $client->calls->create(
+        $number, // The visitor's phone number
+        $twilio['twilio_number'], // A Twilio number in your account
+        $host
+      );
+    } catch (Exception $e) {
+      // Failed calls will throw
+      return $e;
+    }
+    
+    // return a JSON response
+    return array('message' => 'Call incoming!');
     
   }
 }

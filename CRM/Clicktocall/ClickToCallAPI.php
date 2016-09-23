@@ -1,5 +1,4 @@
 <?php
-
 /*
  +--------------------------------------------------------------------+
  | CiviCRM version 4.7                                                |
@@ -24,22 +23,36 @@
  | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
- */
+*/
 
 /**
+ * This interface defines the set of functions a class needs to implement
+ * to use the CRM/Clicktocall object.
+ *
+ * Using this interface allows us to standardize on multiple things including
+ * calling a contact
+ *
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2016
+ * @copyright CiviCRM LLC (c) 2005-2016
  * $Id$
  *
  */
+interface CRM_Clicktocall_ClickToCallAPI {
 
-class CRM_Clicktocall_Page_Call extends CRM_Core_Page {
 
-  function run() {
-    $number = CRM_Utils_Request::retrieve('phoneNumber', 'String');
-    $host = CRM_Utils_System::url('civicrm/clicktocall/outbound', NULL, TRUE, NULL, TRUE, TRUE, FALSE);
-    $twilio = CRM_Core_OptionGroup::values('twilio_auth', TRUE, FALSE, FALSE, NULL, 'name', FALSE);
-    CRM_Clicktocall_BAO_Twilio_Call::create($number, $twilio, array('url' => $host));
-  }
+  /**
+   * creates a call
+   *
+   * @param 
+   * $to string containing the number of the person intended for receiving the call.
+   * $twilio array containing the settings.
+   * $host array containing url of the outbound call.
+   *
+   * @return array the response from the API
+   *
+   */
+  public static function create($to, $settings, $host);
+
 }
+
