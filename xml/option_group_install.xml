@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<CustomData>
+  <OptionGroups>
+    <OptionGroup>
+      <name>twilio_auth</name>
+      <title>Twilio Settings</title>
+      <is_reserved>1</is_reserved>
+      <data_type>String</data_type>
+      <is_active>1</is_active>
+    </OptionGroup>
+  </OptionGroups>
+  <OptionValues>
+    <OptionValue>
+      <label>Twilio Account SID</label>
+      <value>none</value>
+      <name>twilio_account_sid</name>
+      <is_reserved>0</is_reserved>
+      <weight>1</weight>
+      <is_active>1</is_active>
+      <option_group_name>twilio_auth</option_group_name>
+    </OptionValue>
+    <OptionValue>
+      <label>Twilio Auth Token</label>
+      <value>none</value>
+      <name>twilio_auth_token</name>
+      <is_reserved>0</is_reserved>
+      <is_active>1</is_active>
+      <weight>2</weight>
+      <option_group_name>twilio_auth</option_group_name>
+    </OptionValue>
+    <OptionValue>
+      <label>Twilio Number</label>
+      <value>none</value>
+      <name>twilio_number</name>
+      <is_reserved>0</is_reserved>
+      <weight>3</weight>
+      <is_active>1</is_active>
+      <option_group_name>twilio_auth</option_group_name>
+    </OptionValue>
+  </OptionValues>
+</CustomData>
