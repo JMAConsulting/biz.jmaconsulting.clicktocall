@@ -34,8 +34,6 @@
  *
  */
 
-require_once '/home/edsel/git/biz.jmaconsulting.click-to-call/vendor/autoload.php';
-
 class CRM_Clicktocall_Page_Call extends CRM_Core_Page {
 
   function run() {
