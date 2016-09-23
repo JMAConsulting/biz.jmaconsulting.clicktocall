@@ -106,3 +106,11 @@ function clicktocall_civicrm_caseTypes(&$caseTypes) {
 function clicktocall_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
   _clicktocall_civix_civicrm_alterSettingsFolders($metaDataFolders);
 }
+
+function clicktocall_civicrm_pageRun(&$page) {
+  if ($page->getVar('_name') == "CRM_Contact_Page_View_Summary") {
+    CRM_Core_Region::instance('page-body')->add(array(
+      'template' => 'CRM/Clicktocall/Call.tpl',
+    ));
+  }
+}

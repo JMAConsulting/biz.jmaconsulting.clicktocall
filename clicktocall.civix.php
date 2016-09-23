@@ -23,11 +23,11 @@ function _clicktocall_civix_civicrm_config(&$config = NULL) {
       $template->template_dir = array( $extDir, $template->template_dir );
   }
 
-  $include_path = $extRoot . PATH_SEPARATOR . get_include_path( );
-  set_include_path( $include_path );
-
   // Autoload Twilio library
-  require __DIR__ . '/vendor/autoload.php';
+  $twilio = __DIR__ . '/vendor/autoload.php';
+
+  $include_path = $extRoot . PATH_SEPARATOR . $twilio . PATH_SEPARATOR . get_include_path( );
+  set_include_path( $include_path );
 }
 
 /**
