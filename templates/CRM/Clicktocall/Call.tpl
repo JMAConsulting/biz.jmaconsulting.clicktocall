@@ -15,7 +15,6 @@ CRM.$(function($) {
       }).done(function(data) {
         alert("Calling " + $(this).data("phone") + "...");
       }).fail(function(error) {
-        alert("There was an error placing the call.");
 	console.log(error.responseText);
       });
   });
