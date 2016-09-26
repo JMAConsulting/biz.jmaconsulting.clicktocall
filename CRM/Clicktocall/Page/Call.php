@@ -61,7 +61,7 @@ class CRM_Clicktocall_Page_Call extends CRM_Core_Page {
     }
 
     if (empty($phone)) {
-      $phone = $twilio['twilio_phone'];
+      $phone = $twilio['twilio_number'];
     }
     $host = CRM_Utils_System::url('civicrm/call/outbound', "contactName=$name&toNumber=$number", TRUE, NULL, TRUE, TRUE, FALSE);
     $call = CRM_Clicktocall_BAO_Twilio_Call::create($cid, $phone, $twilio, $host);
