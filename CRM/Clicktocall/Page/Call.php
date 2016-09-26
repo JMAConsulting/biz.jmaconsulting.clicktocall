@@ -38,7 +38,7 @@ class CRM_Clicktocall_Page_Call extends CRM_Core_Page {
 
   function run() {
     $number = CRM_Utils_Request::retrieve('phoneNumber', 'String');
-    $cid = CRM_Utils_Request::retrieve('cid', 'String');
+    $cid = CRM_Core_Session::singleton()->get('userID');
     $twilio = CRM_Core_OptionGroup::values('twilio_auth', TRUE, FALSE, FALSE, NULL, 'name', FALSE);
     $name = rawurlencode(CRM_Contact_BAO_Contact::displayName($cid));
     $phone = "";
