@@ -37,13 +37,11 @@
 class CRM_Clicktocall_Page_Outbound extends CRM_Core_Page {
 
   function run() {
-    $sayMessage = 'Please hold while we redirect your call.';
+    $sayMessage = 'Please hold while we connect your call.';
 
-    $twiml = new Twilio\Twiml();
-    $twiml->say($sayMessage, array('voice' => 'ed'));
-
-    $response = Response::make($twiml, 200);
-    $response->header('Content-Type', 'text/xml');
+    $response = new Twilio\Twiml();
+    $response->say($sayMessage, array('voice' => 'woman'));
+    $response->play('https://api.twilio.com/cowbell.mp3', array("loop" => 5));
     return $response;
   }
 }

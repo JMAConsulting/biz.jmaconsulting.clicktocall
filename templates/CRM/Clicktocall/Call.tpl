@@ -9,7 +9,8 @@ CRM.$(function($) {
       method: 'POST',
       dataType: 'json',
       data: {
-        phoneNumber: $(this).html()
+        phoneNumber: $(this).html(),
+	cid: {/literal}{$contactId}{literal}
       }
       }).done(function(data) {
       }).fail(function(error) {

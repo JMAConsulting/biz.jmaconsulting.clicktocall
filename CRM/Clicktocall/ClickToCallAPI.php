@@ -44,15 +44,16 @@ interface CRM_Clicktocall_ClickToCallAPI {
   /**
    * creates a call
    *
-   * @param 
+   * @param
+   * $cid int containing the contact ID.
    * $to string containing the number of the person intended for receiving the call.
    * $twilio array containing the settings.
-   * $host array containing url of the outbound call.
+   * $host array containing url of the outbound call handler.
    *
    * @return array the response from the API
    *
    */
-  public static function create($to, $settings, $host);
+  public static function create($cid, $to, $settings, $host);
 
 }
 
