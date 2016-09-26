@@ -38,7 +38,7 @@ class CRM_Clicktocall_Page_Call extends CRM_Core_Page {
 
   function run() {
     $number = CRM_Utils_Request::retrieve('phoneNumber', 'String');
-    $host = CRM_Utils_System::url('civicrm/clicktocall/outbound', NULL, TRUE, NULL, TRUE, TRUE, FALSE);
+    $host = CRM_Utils_System::url('civicrm/call/outbound', NULL, TRUE, NULL, TRUE, TRUE, FALSE);
     $twilio = CRM_Core_OptionGroup::values('twilio_auth', TRUE, FALSE, FALSE, NULL, 'name', FALSE);
     CRM_Clicktocall_BAO_Twilio_Call::create($number, $twilio, array('url' => $host));
   }

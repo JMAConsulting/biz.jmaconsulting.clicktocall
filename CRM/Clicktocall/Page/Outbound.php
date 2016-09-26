@@ -33,29 +33,17 @@
  * $Id$
  *
  */
-class CRM_Clicktocall_BAO_Twilio_Call implements CRM_Clicktocall_ClickToCallAPI {
 
-  public static function create($number, $twilio, $host) {
+class CRM_Clicktocall_Page_Outbound extends CRM_Core_Page {
 
-    $client = new Twilio\Rest\Client(
-      $twilio['twilio_account_sid'],
-      $twilio['twilio_auth_token']
-    );
+  function run() {
+    $sayMessage = 'Please hold while we redirect your call.';
 
-    try {
-      $call = $client->account->calls->create(
-        $number,
-        $twilio['twilio_number'],
-        array("url" => $host)
-      );
-    }
-    catch (Exception $e) {
-      // Failed calls will throw
-      return $e;
-    }
-    
-    // return a JSON response
-    return array('message' => 'Call incoming!');
-    
+    $twiml = new Twilio\Twiml();
+    $twiml->say($sayMessage, array('voice' => 'ed'));
+
+    $response = Response::make($twiml, 200);
+    $response->header('Content-Type', 'text/xml');
+    return $response;
   }
 }
