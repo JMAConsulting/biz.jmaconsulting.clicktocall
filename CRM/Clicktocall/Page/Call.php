@@ -40,7 +40,7 @@ class CRM_Clicktocall_Page_Call extends CRM_Core_Page {
     $number = CRM_Utils_Request::retrieve('phoneNumber', 'String');
     $cid = CRM_Utils_Request::retrieve('cid', 'String');
     $twilio = CRM_Core_OptionGroup::values('twilio_auth', TRUE, FALSE, FALSE, NULL, 'name', FALSE);
-    $name = CRM_Contact_BAO_Contact::displayName($cid);
+    $name = rawurlencode(CRM_Contact_BAO_Contact::displayName($cid));
     $phone = "";
     try {
       $result = civicrm_api3('Phone', 'get', array("contact_id" => $cid, "is_primary" => 1));
@@ -61,10 +61,10 @@ class CRM_Clicktocall_Page_Call extends CRM_Core_Page {
     }
 
     if (empty($phone)) {
-      return FALSE;
+      $phone = $twilio['twilio_phone'];
     }
-    $host = rawurlencode(CRM_Utils_System::url('civicrm/call/outbound', "contactName={$name}&toNumber={$number}", TRUE, NULL, TRUE, TRUE, FALSE));
-    $call = CRM_Clicktocall_BAO_Twilio_Call::create($cid, $number, $twilio, $host);
+    $host = CRM_Utils_System::url('civicrm/call/outbound', "contactName=$name&toNumber=$number", TRUE, NULL, TRUE, TRUE, FALSE);
+    $call = CRM_Clicktocall_BAO_Twilio_Call::create($cid, $phone, $twilio, $host);
     print $call;
     CRM_Utils_System::civiExit();
   }

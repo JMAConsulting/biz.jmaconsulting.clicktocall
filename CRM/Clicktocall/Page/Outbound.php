@@ -44,7 +44,7 @@ class CRM_Clicktocall_Page_Outbound extends CRM_Core_Page {
     $response = new Twilio\Twiml();
     $response->header('Content-Type', 'text/xml');
     $response->say($sayMessage);
-    $response->dial('+919820723494', array('record' => TRUE, 'timeout' => 20));
+    $response->dial($toNumber, array('record' => FALSE, 'timeout' => 20)); //FIXME: get record settings from system.
     print $response->__toString();
     exit;
   }

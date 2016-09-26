@@ -35,7 +35,7 @@
  */
 class CRM_Clicktocall_BAO_Twilio_Call implements CRM_Clicktocall_ClickToCallAPI {
 
-  public static function create($cid, $toNumber, $twilio, $host) {
+  public static function create($cid, $fromNumber, $twilio, $host) {
 
     $client = new Twilio\Rest\Client(
       $twilio['twilio_account_sid'],
@@ -44,8 +44,8 @@ class CRM_Clicktocall_BAO_Twilio_Call implements CRM_Clicktocall_ClickToCallAPI 
 
     try {
       $call = $client->account->calls->create(
-        $toNumber,
-        $twilio['twilio_number'],
+        $fromNumber,
+        $fromNumber,
         array(
           "url" => $host,
           "method" => "GET",
