@@ -35,7 +35,7 @@
  */
 class CRM_Clicktocall_BAO_Twilio_Call implements CRM_Clicktocall_ClickToCallAPI {
 
-  public static function create($cid, $number, $twilio, $host) {
+  public static function create($cid, $toNumber, $twilio, $host) {
 
     $client = new Twilio\Rest\Client(
       $twilio['twilio_account_sid'],
@@ -44,12 +44,16 @@ class CRM_Clicktocall_BAO_Twilio_Call implements CRM_Clicktocall_ClickToCallAPI 
 
     try {
       $call = $client->account->calls->create(
-        $number,
+        $toNumber,
         $twilio['twilio_number'],
         array(
           "url" => $host,
-          "sendName" => CRM_Contact_BAO_Contact::displayName($cid),
           "method" => "GET",
+          //"statusCallbackMethod" => "POST",
+          //"statusCallback" => CRM_Utils_System::url('civicrm/call/callstatus', NULL, TRUE, NULL, TRUE, TRUE, FALSE),
+          //"statusCallbackEvent" => array(
+          //  "completed"
+          //),
         )
       );
     }

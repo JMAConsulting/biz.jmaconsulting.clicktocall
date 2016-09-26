@@ -9,11 +9,14 @@ CRM.$(function($) {
       method: 'POST',
       dataType: 'json',
       data: {
-        phoneNumber: $(this).html(),
+        phoneNumber: $(this).data("phone"),
 	cid: {/literal}{$contactId}{literal}
       }
       }).done(function(data) {
+        alert("Calling " + $(this).data("phone") + "...");
       }).fail(function(error) {
+        alert("There was an error placing the call.");
+	console.log(error.responseText);
       });
   });
 });

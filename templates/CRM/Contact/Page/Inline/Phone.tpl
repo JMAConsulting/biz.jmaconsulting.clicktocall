@@ -1,6 +1,4 @@
-<?php
-
-/*
+{*
  +--------------------------------------------------------------------+
  | CiviCRM version 4.7                                                |
  +--------------------------------------------------------------------+
@@ -24,48 +22,36 @@
  | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
- */
-
-/**
- *
- * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2016
- * $Id$
- *
- */
-
-class CRM_Clicktocall_Page_Call extends CRM_Core_Page {
-
-  function run() {
-    $number = CRM_Utils_Request::retrieve('phoneNumber', 'String');
-    $cid = CRM_Utils_Request::retrieve('cid', 'String');
-    $twilio = CRM_Core_OptionGroup::values('twilio_auth', TRUE, FALSE, FALSE, NULL, 'name', FALSE);
-    $name = CRM_Contact_BAO_Contact::displayName($cid);
-    $phone = "";
-    try {
-      $result = civicrm_api3('Phone', 'get', array("contact_id" => $cid, "is_primary" => 1));
-      if ($result['count'] > 0 && isset($result['id'])) {
-        $phone = $result['values'][$result['id']]['phone'];
-      }
-    }
-    catch (CiviCRM_API3_Exception $e) {
-      // Handle error here.
-      $errorMessage = $e->getMessage();
-      $errorCode = $e->getErrorCode();
-      $errorData = $e->getExtraParams();
-      return array(
-        'error' => $errorMessage,
-        'error_code' => $errorCode,
-        'error_data' => $errorData,
-      );
-    }
-
-    if (empty($phone)) {
-      return FALSE;
-    }
-    $host = rawurlencode(CRM_Utils_System::url('civicrm/call/outbound', "contactName={$name}&toNumber={$number}", TRUE, NULL, TRUE, TRUE, FALSE));
-    $call = CRM_Clicktocall_BAO_Twilio_Call::create($cid, $number, $twilio, $host);
-    print $call;
-    CRM_Utils_System::civiExit();
-  }
-}
+*}
+{* template for building phone block*}
+<div id="crm-phone-content" {if $permission EQ 'edit'} class="crm-inline-edit" data-edit-params='{ldelim}"cid": "{$contactId}", "class_name": "CRM_Contact_Form_Inline_Phone"{rdelim}' data-dependent-fields='["#crm-contact-actions-wrapper"]'{/if}>
+  <div class="crm-clear crm-inline-block-content" {if $permission EQ 'edit'}title="{ts}Add or edit phone{/ts}"{/if}>
+    {if $permission EQ 'edit'}
+      <div class="crm-edit-help">
+        <span class="crm-i fa-pencil"></span> {if empty($phone)}{ts}Add phone{/ts}{else}{ts}Add or edit phone{/ts}{/if}
+      </div>
+    {/if}
+    {if empty($phone)}
+      <div class="crm-summary-row">
+        <div class="crm-label">
+          {ts}Phone{/ts}
+          {if $privacy.do_not_phone}<span class="icon privacy-flag do-not-phone" title="{ts}Privacy flag: Do Not Phone{/ts}"></span>{/if}
+        </div>
+        <div class="crm-content"></div>
+      </div>
+    {/if}
+    {foreach from=$phone item=item}
+      {if $item.phone || $item.phone_ext}
+        <div class="crm-summary-row {if $item.is_primary eq 1}primary{/if}">
+          <div class="crm-label">
+            {if $privacy.do_not_phone}<span class="icon privacy-flag do-not-phone" title="{ts}Privacy flag: Do Not Phone{/ts}"></span>{/if}
+            {$item.location_type} {$item.phone_type}
+          </div>
+          <div class="crm-content crm-contact_phone">
+            <a href="#" class="phone_number" data-phone={$item.phone}>{$item.phone}{if $item.phone_ext}&nbsp;&nbsp;{ts}ext.{/ts} {$item.phone_ext}{/if}</a>
+          </div>
+        </div>
+      {/if}
+    {/foreach}
+   </div>
+</div>

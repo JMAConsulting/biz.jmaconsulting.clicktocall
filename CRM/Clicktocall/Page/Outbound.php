@@ -37,11 +37,15 @@
 class CRM_Clicktocall_Page_Outbound extends CRM_Core_Page {
 
   function run() {
-    $sayMessage = 'Please hold while we connect your call.';
+    $name = CRM_Utils_Request::retrieve('contactName', 'String');
+    $toNumber = CRM_Utils_Request::retrieve('toNumber', 'String');
+    $sayMessage = "Hi {$name}! Please stay on the line while we connect your call.";
 
     $response = new Twilio\Twiml();
-    $response->say($sayMessage, array('voice' => 'woman'));
-    $response->play('https://api.twilio.com/cowbell.mp3', array("loop" => 5));
-    return $response;
+    $response->header('Content-Type', 'text/xml');
+    $response->say($sayMessage);
+    $response->dial('+919820723494', array('record' => TRUE, 'timeout' => 20));
+    print $response->__toString();
+    exit;
   }
 }
