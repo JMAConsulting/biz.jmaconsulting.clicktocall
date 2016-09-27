@@ -37,18 +37,25 @@
 class CRM_Clicktocall_Page_Status extends CRM_Core_Page {
 
   function run() {
-    if (!empty($_POST) && CRM_Utils_Array::value('CallSid', $_POST)) {
-      $data = $_POST;
-      $twilio = CRM_Core_OptionGroup::values('twilio_auth', TRUE, FALSE, FALSE, NULL, 'name', FALSE);
-      $client = new Services_Twilio($twilio['twilio_account_sid'], $twilio['twilio_auth_token']); 
+    if ($data = $_POST && CRM_Utils_Array::value('CallSid', $data)) {
+    $twilio = CRM_Core_OptionGroup::values('twilio_auth', TRUE, FALSE, FALSE, NULL, 'name', FALSE);
 
-      $calls = $client->account->calls->getIterator(0, 1, array(    
-	      'ParentCallSid' => $data['CallSid'],  
-      ));
-      CRM_Core_Error::debug_var( '$calls', $calls );
-      exit;
-
-      
+    $username = $twilio['twilio_account_sid'];
+    $password = $twilio['twilio_auth_token'];
+    $url = "https://api.twilio.com/2010-04-01/Accounts/" . $twilio['twilio_account_sid'] . "/Calls.json?ParentCallSid=" . $data['CallSid'];
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL,$url);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+    curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+    curl_setopt($ch, CURLOPT_USERPWD, "$username:$password");
+    $result = curl_exec ($ch);
+    CRM_Core_Error::debug_var( '$result', $result );
+    exit;
+    curl_close ($ch);
     }
+
   }
+
 }
+
