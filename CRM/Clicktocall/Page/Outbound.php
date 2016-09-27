@@ -42,7 +42,7 @@ class CRM_Clicktocall_Page_Outbound extends CRM_Core_Page {
 
     $response = new Twilio\Twiml();
     $response->say($sayMessage);
-    $response->dial($toNumber, array('record' => TRUE, 'timeout' => 20, 'action' => CRM_Utils_System::url('civicrm/call/callstatus', NULL, TRUE, NULL, TRUE, TRUE, FALSE), 'method' => 'POST'));
+    $response->dial($toNumber, array('record' => TRUE, 'timeout' => 20));
     print $response->__toString();
     exit;
   }

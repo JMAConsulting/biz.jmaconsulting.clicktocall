@@ -37,8 +37,18 @@
 class CRM_Clicktocall_Page_Status extends CRM_Core_Page {
 
   function run() {
-    $post = $_POST;
-    CRM_Core_Error::debug_var('awd', $post );
-    exit;
+    if (!empty($_POST) && CRM_Utils_Array::value('CallSid', $_POST)) {
+      $data = $_POST;
+      $twilio = CRM_Core_OptionGroup::values('twilio_auth', TRUE, FALSE, FALSE, NULL, 'name', FALSE);
+      $client = new Services_Twilio($twilio['twilio_account_sid'], $twilio['twilio_auth_token']); 
+
+      $calls = $client->account->calls->getIterator(0, 1, array(    
+	      'ParentCallSid' => $data['CallSid'],  
+      ));
+      CRM_Core_Error::debug_var( '$calls', $calls );
+      exit;
+
+      
+    }
   }
 }
