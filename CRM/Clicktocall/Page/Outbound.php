@@ -37,10 +37,8 @@
 class CRM_Clicktocall_Page_Outbound extends CRM_Core_Page {
 
   function run() {
-    $cid = CRM_Utils_Request::retrieve('cid', 'String');
-    $name = CRM_Contact_BAO_Contact::displayName($cid);
     $toNumber = CRM_Utils_Request::retrieve('toNumber', 'String');
-    $sayMessage = "Hi {$name}! Please stay on the line while we connect your call.";
+    $sayMessage = "Hi ! Please stay on the line while we connect your call.";
 
     $response = new Twilio\Twiml();
     $response->say($sayMessage);

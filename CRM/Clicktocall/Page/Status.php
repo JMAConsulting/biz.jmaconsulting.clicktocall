@@ -38,7 +38,7 @@ class CRM_Clicktocall_Page_Status extends CRM_Core_Page {
 
   function run() {
     $post = $_POST;
-    CRM_Core_Error::debug_var( );
+    CRM_Core_Error::debug_var('awd', $post );
     exit;
   }
 }
