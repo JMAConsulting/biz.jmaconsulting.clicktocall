@@ -42,9 +42,8 @@ class CRM_Clicktocall_Page_Outbound extends CRM_Core_Page {
     $sayMessage = "Hi {$name}! Please stay on the line while we connect your call.";
 
     $response = new Twilio\Twiml();
-    $response->header('Content-Type', 'text/xml');
     $response->say($sayMessage);
-    $response->dial($toNumber, array('record' => FALSE, 'timeout' => 20)); //FIXME: get record settings from system.
+    $response->dial($toNumber, array('record' => TRUE, 'timeout' => 20));
     print $response->__toString();
     exit;
   }

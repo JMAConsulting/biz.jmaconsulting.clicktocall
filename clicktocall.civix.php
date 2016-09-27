@@ -25,7 +25,7 @@ function _clicktocall_civix_civicrm_config(&$config = NULL) {
 
   // Autoload Twilio library
   require_once __DIR__ . '/vendor/autoload.php';
-
+  array_push(CRM_Core_Smarty::singleton()->plugins_dir, __DIR__ . '/plugins');
   $include_path = $extRoot . PATH_SEPARATOR . get_include_path( );
   set_include_path( $include_path );
 }

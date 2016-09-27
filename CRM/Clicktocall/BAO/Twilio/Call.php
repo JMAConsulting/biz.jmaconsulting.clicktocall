@@ -48,7 +48,7 @@ class CRM_Clicktocall_BAO_Twilio_Call implements CRM_Clicktocall_ClickToCallAPI 
         $fromNumber,
         array(
           "url" => $host,
-          "method" => "GET",
+          "method" => "POST",
           //"statusCallbackMethod" => "POST",
           //"statusCallback" => CRM_Utils_System::url('civicrm/call/callstatus', NULL, TRUE, NULL, TRUE, TRUE, FALSE),
           //"statusCallbackEvent" => array(

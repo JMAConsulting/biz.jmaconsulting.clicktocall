@@ -48,7 +48,7 @@
             {$item.location_type} {$item.phone_type}
           </div>
           <div class="crm-content crm-contact_phone">
-            <a href="#" class="phone_number" data-phone={$item.phone}>{$item.phone}{if $item.phone_ext}&nbsp;&nbsp;{ts}ext.{/ts} {$item.phone_ext}{/if}</a>
+            {$item.phone|telephone}{if $item.phone_ext}&nbsp;&nbsp;{ts}ext.{/ts} {$item.phone_ext}{/if}
           </div>
         </div>
       {/if}

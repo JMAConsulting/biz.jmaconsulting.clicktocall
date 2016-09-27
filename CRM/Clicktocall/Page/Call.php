@@ -39,8 +39,8 @@ class CRM_Clicktocall_Page_Call extends CRM_Core_Page {
   function run() {
     $number = CRM_Utils_Request::retrieve('phoneNumber', 'String');
     $cid = CRM_Core_Session::singleton()->get('userID');
+    $name = CRM_Contact_BAO_Contact::displayName($cid);
     $twilio = CRM_Core_OptionGroup::values('twilio_auth', TRUE, FALSE, FALSE, NULL, 'name', FALSE);
-    $name = rawurlencode(CRM_Contact_BAO_Contact::displayName($cid));
     $phone = "";
     try {
       $result = civicrm_api3('Phone', 'get', array("contact_id" => $cid, "is_primary" => 1));
