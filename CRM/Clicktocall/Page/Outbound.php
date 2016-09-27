@@ -38,11 +38,11 @@ class CRM_Clicktocall_Page_Outbound extends CRM_Core_Page {
 
   function run() {
     $toNumber = CRM_Utils_Request::retrieve('toNumber', 'String');
-    $sayMessage = "Hi ! Please stay on the line while we connect your call.";
+    $sayMessage = "Hi! Please stay on the line while we connect your call.";
 
     $response = new Twilio\Twiml();
     $response->say($sayMessage);
-    $response->dial($toNumber, array('record' => TRUE, 'timeout' => 20));
+    $response->dial($toNumber, array('record' => TRUE, 'timeout' => 20, 'action' => CRM_Utils_System::url('civicrm/call/callstatus', NULL, TRUE, NULL, TRUE, TRUE, FALSE), 'method' => 'POST'));
     print $response->__toString();
     exit;
   }
