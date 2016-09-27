@@ -34,37 +34,11 @@
  *
  */
 
-class CRM_Clicktocall_Page_Call extends CRM_Core_Page {
+class CRM_Clicktocall_Page_Status extends CRM_Core_Page {
 
   function run() {
-    $number = CRM_Utils_Request::retrieve('phoneNumber', 'String');
-    $cid = CRM_Core_Session::singleton()->get('userID');
-    $twilio = CRM_Core_OptionGroup::values('twilio_auth', TRUE, FALSE, FALSE, NULL, 'name', FALSE);
-    $phone = "";
-    try {
-      $result = civicrm_api3('Phone', 'get', array("contact_id" => $cid, "is_primary" => 1));
-      if ($result['count'] > 0 && isset($result['id'])) {
-        $phone = $result['values'][$result['id']]['phone'];
-      }
-    }
-    catch (CiviCRM_API3_Exception $e) {
-      // Handle error here.
-      $errorMessage = $e->getMessage();
-      $errorCode = $e->getErrorCode();
-      $errorData = $e->getExtraParams();
-      return array(
-        'error' => $errorMessage,
-        'error_code' => $errorCode,
-        'error_data' => $errorData,
-      );
-    }
-
-    if (empty($phone)) {
-      $phone = $twilio['twilio_number'];
-    }
-    $host = CRM_Utils_System::url('civicrm/call/outbound', "cid=$cid&toNumber=$number", TRUE, NULL, TRUE, TRUE, FALSE);
-    $call = CRM_Clicktocall_BAO_Twilio_Call::create($cid, $phone, $twilio, $host);
-    print $call;
-    CRM_Utils_System::civiExit();
+    $post = $_POST;
+    CRM_Core_Error::debug_var( );
+    exit;
   }
 }
