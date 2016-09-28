@@ -107,6 +107,9 @@ function clicktocall_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
   _clicktocall_civix_civicrm_alterSettingsFolders($metaDataFolders);
 }
 
+/**
+ * Implements hook_civicrm_pageRun().
+ */
 function clicktocall_civicrm_pageRun(&$page) {
   if ($page->getVar('_name') == "CRM_Contact_Page_View_Summary") {
     CRM_Core_Region::instance('page-body')->add(array(

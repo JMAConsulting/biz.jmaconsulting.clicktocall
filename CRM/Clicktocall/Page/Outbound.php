@@ -38,6 +38,7 @@ class CRM_Clicktocall_Page_Outbound extends CRM_Core_Page {
 
   function run() {
     $toNumber = CRM_Utils_Request::retrieve('toNumber', 'String');
+    $toNumber = CRM_Clicktocall_BAO_Twilio_Call::formatPhone($toNumber);
     $toName = CRM_Utils_Request::retrieve('toContactName', 'String');
     $fromName = CRM_Utils_Request::retrieve('fromContactName', 'String');
     $sayMessage = "Hi {$fromName}!";
@@ -45,7 +46,7 @@ class CRM_Clicktocall_Page_Outbound extends CRM_Core_Page {
     $response = new Twilio\Twiml();
     $response->say($sayMessage);
     $dialParams = array(
-      'action' => CRM_Utils_System::url('civicrm/call/dial', 'toNumber={$toNumber}', TRUE, NULL, FALSE, TRUE, FALSE),
+      'action' => CRM_Utils_System::url('civicrm/call/dial', "toNumber=$toNumber", TRUE, NULL, FALSE, TRUE, FALSE),
       'method' => 'GET',
       'timeout' => 10,
       'numDigits' => 1,

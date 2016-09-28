@@ -42,8 +42,14 @@ class CRM_Clicktocall_Page_Dial extends CRM_Core_Page {
       $response = new Twilio\Twiml();
       $response->say($sayMessage);
       $toNumber = CRM_Utils_Request::retrieve('toNumber', 'String');
+      $toNumber = CRM_Clicktocall_BAO_Twilio_Call::formatPhone($toNumber);
+      $twilio = CRM_Core_OptionGroup::values('twilio_auth', TRUE, FALSE, FALSE, NULL, 'name', FALSE);
+      $isRecord = FALSE;
+      if (strtolower($twilio['record_call']) == 'yes') {
+        $isRecord = TRUE;
+      }
       $dialParams = array(
-        'record' => FALSE,
+        'record' => $isRecord,
         'timeout' => 20,
         'say' => 'Thank you. Bye.'
       );
@@ -51,7 +57,7 @@ class CRM_Clicktocall_Page_Dial extends CRM_Core_Page {
       print $response->__toString();
     }
     else if ($_REQUEST['Digits'] == '2') {
-      $sayMessage = "Thank you. Goodbye.";
+      $sayMessage = "Thank you. Bye.";
       $response = new Twilio\Twiml();
       $response->say($sayMessage);
       print $response->__toString();

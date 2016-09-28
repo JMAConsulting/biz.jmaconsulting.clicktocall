@@ -52,7 +52,7 @@ class CRM_Clicktocall_BAO_Twilio_Call implements CRM_Clicktocall_ClickToCallAPI 
           "statusCallbackMethod" => "POST",
           "statusCallback" => CRM_Utils_System::url('civicrm/call/callstatus', NULL, TRUE, NULL, TRUE, TRUE, FALSE),
           "statusCallbackEvent" => array(
-           "completed"
+            "completed",
           ),
         )
       );
@@ -62,7 +62,21 @@ class CRM_Clicktocall_BAO_Twilio_Call implements CRM_Clicktocall_ClickToCallAPI 
       return $e;
     }
     
-    // return a JSON response
+    // return success
     return TRUE;
+  }
+
+  public static function createActivity($result) {
+    $result = json_decode($result);
+    CRM_Core_Error::debug_var( '$result', $result );
+    exit;
+  }
+
+  public static function formatPhone($number) {
+    // Weird case when passing numbers between XMLs cause + to disappear.
+    if (strpos($number, '+') === FALSE) {
+      return '+' . trim($number);
+    }
+    return trim($number);
   }
 }
