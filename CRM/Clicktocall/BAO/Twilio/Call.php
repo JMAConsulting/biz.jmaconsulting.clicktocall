@@ -75,8 +75,6 @@ class CRM_Clicktocall_BAO_Twilio_Call implements CRM_Clicktocall_ClickToCallAPI 
     $result = json_decode($result);
 
     $call = $result->calls[0];
-
-    // create the activity
     $activityTypes = CRM_Core_PseudoConstant::activityType(TRUE, FALSE, FALSE, 'name');
     $activityStatus = CRM_Core_PseudoConstant::activityStatus('name');
 
@@ -105,8 +103,6 @@ class CRM_Clicktocall_BAO_Twilio_Call implements CRM_Clicktocall_ClickToCallAPI 
     $message = "<h1>Twilio Information</h1>";
     $message .= "<br/>";
     $message .= "<p><b>Call SID:</b> {$call->sid}";
-    $message .= "<br/>";
-    $message .= "<b>Price:</b> {$call->price} {$call->price_unit}</p>";
 
     $activityParams = array(
       'activity_type_id' => array_search('Phone Call', $activityTypes),
@@ -120,11 +116,12 @@ class CRM_Clicktocall_BAO_Twilio_Call implements CRM_Clicktocall_ClickToCallAPI 
       'details' => $message,
       'version' => 3,
     );
-    if (CRM_Utils_Array::value('RecordingURL', $data)) {
+    // Add recording as attachment.
+    if (CRM_Utils_Array::value('RecordingUrl', $data)) {
       $path = CRM_Core_Config::singleton()->customFileUploadDir;
-      $name = basename($data['RecordingSID']) . '.wav';
+      $name = basename($data['RecordingSid']) . '.wav';
       $path = $path . $name;
-      file_put_contents($path, fopen($data['RecordingURL'], 'rb'));
+      file_put_contents($path, fopen($data['RecordingUrl'], 'rb'));
       $recording = array(
         'api.Attachment.create' =>  array(
           'sequential' => 1,
@@ -137,7 +134,8 @@ class CRM_Clicktocall_BAO_Twilio_Call implements CRM_Clicktocall_ClickToCallAPI 
       );
       $activityParams = $activityParams + $recording;
     }
-    $activity = civicrm_api( 'Activity', 'create', $activityParams);
+    // create the activity
+    civicrm_api( 'Activity', 'create', $activityParams);
   }
 
   public static function formatPhone($number) {
