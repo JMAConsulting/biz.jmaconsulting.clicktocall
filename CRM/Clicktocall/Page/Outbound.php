@@ -45,16 +45,14 @@ class CRM_Clicktocall_Page_Outbound extends CRM_Core_Page {
     $response = new Twilio\Twiml();
     $response->say($sayMessage);
     $dialParams = array(
-      'record' => FALSE,
-      'timeout' => 20,
-      'gather' => array(
-        'action' => CRM_Utils_System::url('civicrm/call/dial', NULL, TRUE, NULL, FALSE, TRUE, FALSE),
+      array(
+        'action' => CRM_Utils_System::url('civicrm/call/dial', 'toNumber={$toNumber}', TRUE, NULL, FALSE, TRUE, FALSE),
         'method' => 'GET',
         'say' => "Press 1 to confirm call to {$toName}. Press 2 to quit the call.",
       ),
       'say' => 'Thank you. Goodbye.'
     );
-    $response->dial($toNumber, $dialParams);
+    $response->gather($dialParams);
     print $response->__toString();
     exit;
   }

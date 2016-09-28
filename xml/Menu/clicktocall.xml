@@ -21,4 +21,11 @@
     <access_callback>1</access_callback>
     <is_public>true</is_public>
   </item>
+  <item>
+    <path>civicrm/call/dial</path>
+    <page_callback>CRM_Clicktocall_Page_Dial</page_callback>
+    <title>Dial</title>
+    <access_callback>1</access_callback>
+    <is_public>true</is_public>
+  </item>
 </menu>
