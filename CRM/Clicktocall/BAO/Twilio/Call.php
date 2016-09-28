@@ -41,6 +41,10 @@ class CRM_Clicktocall_BAO_Twilio_Call implements CRM_Clicktocall_ClickToCallAPI 
       $twilio['twilio_account_sid'],
       $twilio['twilio_auth_token']
     );
+    $isRecord = FALSE;
+    if (strtolower($twilio['record_call']) == 'yes') {
+      $isRecord = TRUE;
+    }
 
     try {
       $call = $client->account->calls->create(
@@ -49,6 +53,7 @@ class CRM_Clicktocall_BAO_Twilio_Call implements CRM_Clicktocall_ClickToCallAPI 
         array(
           "url" => $host,
           "method" => "GET",
+          "record" => $isRecord,
           "statusCallbackMethod" => "POST",
           "statusCallback" => CRM_Utils_System::url('civicrm/call/callstatus', NULL, TRUE, NULL, TRUE, TRUE, FALSE),
           "statusCallbackEvent" => array(
@@ -68,8 +73,6 @@ class CRM_Clicktocall_BAO_Twilio_Call implements CRM_Clicktocall_ClickToCallAPI 
 
   public static function createActivity($result) {
     $result = json_decode($result);
-    CRM_Core_Error::debug_var( '$result', $result );
-    exit;
   }
 
   public static function formatPhone($number) {

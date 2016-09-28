@@ -38,20 +38,14 @@ class CRM_Clicktocall_Page_Dial extends CRM_Core_Page {
 
   function run() {
     if ($_REQUEST['Digits'] == '1') {
-      $sayMessage = "Thanks, please wait while we connect you.";
+      $sayMessage = "Thank you, please stay on the line while we connect you.";
       $response = new Twilio\Twiml();
       $response->say($sayMessage);
       $toNumber = CRM_Utils_Request::retrieve('toNumber', 'String');
       $toNumber = CRM_Clicktocall_BAO_Twilio_Call::formatPhone($toNumber);
       $twilio = CRM_Core_OptionGroup::values('twilio_auth', TRUE, FALSE, FALSE, NULL, 'name', FALSE);
-      $isRecord = FALSE;
-      if (strtolower($twilio['record_call']) == 'yes') {
-        $isRecord = TRUE;
-      }
       $dialParams = array(
-        'record' => $isRecord,
         'timeout' => 20,
-        'say' => 'Thank you. Bye.'
       );
       $response->dial($toNumber, $dialParams);
       print $response->__toString();

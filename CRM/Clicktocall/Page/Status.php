@@ -37,7 +37,8 @@
 class CRM_Clicktocall_Page_Status extends CRM_Core_Page {
 
   function run() {
-    //if ($data = $_POST) {
+    if ($data = $_POST) {
+      CRM_Core_Error::debug('new', $_POST);
       $twilio = CRM_Core_OptionGroup::values('twilio_auth', TRUE, FALSE, FALSE, NULL, 'name', FALSE);
 
       $username = $twilio['twilio_account_sid'];
@@ -56,7 +57,7 @@ class CRM_Clicktocall_Page_Status extends CRM_Core_Page {
         CRM_Clicktocall_BAO_Twilio_Call::createActivity($result);
       }
     }
-  //}
+  }
 
 }
 
