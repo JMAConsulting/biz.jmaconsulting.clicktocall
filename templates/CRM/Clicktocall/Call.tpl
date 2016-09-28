@@ -12,8 +12,8 @@ CRM.$(function($) {
         phoneNumber: $(this).data("phone"),
 	cid: {/literal}{$contactId}{literal}
       }
-      }).done(function(data) {
-        alert("Calling " + $(this).data("phone") + "...");
+      }).success(function(d) {
+        //alert("Calling " + $(this).data.phoneNumber + "...");
       }).fail(function(error) {
 	console.log(error.responseText);
       });

@@ -63,7 +63,6 @@ class CRM_Clicktocall_BAO_Twilio_Call implements CRM_Clicktocall_ClickToCallAPI 
     }
     
     // return a JSON response
-    return array('message' => 'Call incoming!');
-    
+    return TRUE;
   }
 }
