@@ -47,7 +47,7 @@ class CRM_Clicktocall_BAO_Twilio_Call implements CRM_Clicktocall_ClickToCallAPI 
     }
 
     try {
-      $call = $client->account->calls->create(
+      $client->account->calls->create(
         $fromNumber,
         $twilio['twilio_number'],
         array(
@@ -74,11 +74,11 @@ class CRM_Clicktocall_BAO_Twilio_Call implements CRM_Clicktocall_ClickToCallAPI 
   public static function createActivity($result, $data) {
     $result = json_decode($result);
 
-    $call = $result['calls'][0];
+    $call = $result->calls[0];
 
     // create the activity
     $activityTypes = CRM_Core_PseudoConstant::activityType(TRUE, FALSE, FALSE, 'name');
-    $activityStatus = CRM_Core_PseudoConstant::activityStatus(TRUE, FALSE, FALSE, 'name');
+    $activityStatus = CRM_Core_PseudoConstant::activityStatus('name');
 
     // Get contacts
     $toPhone = civicrm_api3('Phone', 'get', array(
