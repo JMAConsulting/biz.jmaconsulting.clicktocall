@@ -37,7 +37,7 @@
 class CRM_Clicktocall_Page_Dial extends CRM_Core_Page {
 
   function run() {
-    if ($_POST['Digits'] == '1') {
+    if ($_REQUEST['Digits'] == '1') {
       $sayMessage = "Thanks, please wait while we connect you.";
       $response = new Twilio\Twiml();
       $response->say($sayMessage);
@@ -45,23 +45,24 @@ class CRM_Clicktocall_Page_Dial extends CRM_Core_Page {
       $dialParams = array(
         'record' => FALSE,
         'timeout' => 20,
-        'say' => 'Thank you. Goodbye.'
+        'say' => 'Thank you. Bye.'
       );
       $response->dial($toNumber, $dialParams);
       print $response->__toString();
     }
-    else if ($_POST['Digits'] == '2') {
+    else if ($_REQUEST['Digits'] == '2') {
       $sayMessage = "Thank you. Goodbye.";
       $response = new Twilio\Twiml();
       $response->say($sayMessage);
       print $response->__toString();
     }
     else {
-      $sayMessage = "We did not recognize this input. Goodbye.";
+      $sayMessage = "We did not recognize this input. Bye.";
       $response = new Twilio\Twiml();
       $response->say($sayMessage);
       print $response->__toString();
     }
+    exit();
   }
 
 }
