@@ -84,7 +84,7 @@ class CRM_Clicktocall_BAO_Twilio_Call implements CRM_Clicktocall_ClickToCallAPI 
     $toPhone = civicrm_api3('Phone', 'get', array(
       'sequential' => 1,
       'return' => array("contact_id"),
-      'phone' => $call->to;,
+      'phone' => $call->to,
     ));
     foreach ($toPhone['values'] as $values) {
       $toCid = $values['contact_id'];
