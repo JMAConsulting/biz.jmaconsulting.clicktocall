@@ -82,6 +82,55 @@ function clicktocall_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_managed
  */
 function clicktocall_civicrm_managed(&$entities) {
+  $entities[] = array(
+    'module' => 'biz.jmaconsulting.clicktocall',
+    'name' => 'clicktocall',
+    'update' => 'never',
+    'entity' => 'OptionGroup',
+    'params' => array(
+      'title' => 'Twilio Settings',
+      'name' => 'twilio_auth',
+      'description' => 'Add Twilio username, password and phone',
+      'is_active' => 1,
+      'is_reserved' => 1,
+      'version' => 3,
+      'sequential' => 1,
+      'api.OptionValue.create' => array(
+        array(
+          'label' => 'Twilio Account SID',
+          'name' => 'twilio_account_sid',
+          'value' => '',
+          'is_active' => 1,
+        ),
+        array(
+          'label' => 'Twilio Auth Token',
+          'name' => 'twilio_auth_token',
+          'value' => '',
+          'is_active' => 1,
+        ),
+        array(
+          'label' => 'Twilio Number',
+          'name' => 'twilio_number',
+          'value' => '',
+          'is_active' => 1,
+        ),
+        array(
+          'label' => 'Record Call?',
+          'name' => 'record_call',
+          'value' => 'Yes',
+          'description' => 'Can be either Yes or No',
+          'is_default' => 1,
+          'is_active' => 1,
+        ),
+        array(
+          'label' => 'wav',
+          'is_active' => 1,
+          'version' => 3,
+          'option_group_id' => 'safe_file_extension',
+        ),
+      ),
+    ),
+  );
   _clicktocall_civix_civicrm_managed($entities);
 }
 
