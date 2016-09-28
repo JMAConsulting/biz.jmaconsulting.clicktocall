@@ -120,6 +120,23 @@ class CRM_Clicktocall_BAO_Twilio_Call implements CRM_Clicktocall_ClickToCallAPI 
       'details' => $message,
       'version' => 3,
     );
+    if (CRM_Utils_Array::value('RecordingURL', $data)) {
+      $path = CRM_Core_Config::singleton()->customFileUploadDir;
+      $name = basename($data['RecordingSID']) . '.wav';
+      $path = $path . $name;
+      file_put_contents($path, fopen($data['RecordingURL'], 'rb'));
+      $recording = array(
+        'api.Attachment.create' =>  array(
+          'sequential' => 1,
+          'name' => $name,
+          'mime_type' => 'audio/wav',
+          'entity_table' => "civicrm_activity",
+          'path' => $path,
+          'options' => array('move-file' => $path),
+        ),
+      );
+      $activityParams = $activityParams + $recording;
+    }
     $activity = civicrm_api( 'Activity', 'create', $activityParams);
   }
 
