@@ -71,10 +71,7 @@ class CRM_Clicktocall_BAO_Twilio_Call implements CRM_Clicktocall_ClickToCallAPI 
     return TRUE;
   }
 
-  public static function createActivity($result, $data) {
-    $result = json_decode($result);
-
-    $call = $result->calls[0];
+  public static function createActivity($call, $data) {
     $activityTypes = CRM_Core_PseudoConstant::activityType(TRUE, FALSE, FALSE, 'name');
     $activityStatus = CRM_Core_PseudoConstant::activityStatus('name');
 
@@ -108,7 +105,7 @@ class CRM_Clicktocall_BAO_Twilio_Call implements CRM_Clicktocall_ClickToCallAPI 
       'activity_type_id' => array_search('Phone Call', $activityTypes),
       'subject' => 'Twilio - Phone call',
       'status_id' => array_search('Completed', $activityStatus),
-      'activity_date_time' => date('YmdHis', strtotime($call->start_time)),
+      'activity_date_time' => $call->startTime->format('YmdHis'),
       'duration' => round($call->duration/60, 2),
       'source_contact_id' => $fromCid,
       'target_contact_id' => $toCid,
