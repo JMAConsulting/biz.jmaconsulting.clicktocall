@@ -102,9 +102,11 @@ function clicktocall_civicrm_managed(&$entities) {
     'params' => array(
       'label' => "Twilio Settings",
       'name' => "twilio_settings",
-      'url' => "civicrm/callsettings",
+      'url' => "civicrm/callsettings?reset=1",
       'parent_id' => "Communications",
+      'permission' => "administer CiviCRM",
       'has_separator' => 1,
+      'is_active' => 1,
       'version' => 3,
     ),
   );
