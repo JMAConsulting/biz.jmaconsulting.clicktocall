@@ -42,7 +42,7 @@ class CRM_Clicktocall_BAO_Twilio_Call implements CRM_Clicktocall_ClickToCallAPI 
       $twilio['twilio_auth_token']
     );
     $isRecord = FALSE;
-    if (strtolower($twilio['record_call']) == 'yes') {
+    if ($twilio['is_record']) {
       $isRecord = TRUE;
     }
 

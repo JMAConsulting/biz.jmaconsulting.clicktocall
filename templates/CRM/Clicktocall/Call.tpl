@@ -20,8 +20,7 @@ CRM.$(function($) {
       }).success(function(d) {
         alert("Calling " + phone + "...");
       }).fail(function(error) {
-        alert("There was an error placing the call..");
-	console.log(error.responseText);
+        alert("There was an error placing the call. " + error.responseText);
       });
   });
 });

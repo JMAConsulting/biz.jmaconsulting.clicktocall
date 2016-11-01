@@ -37,33 +37,36 @@
 class CRM_Clicktocall_Page_Call extends CRM_Core_Page {
 
   function run() {
+    $twilio = Civi::settings()->get('civicrm_twilio_settings');
+    if (empty($twilio['twilio_account_sid']) || empty($twilio['twilio_auth_token'])) {
+      echo "Twilio credentials required to create call. Please navigate to Administer > Communications > Twilio Settings.";
+      CRM_Utils_System::civiExit();
+    }
     $toNumber = CRM_Utils_Request::retrieve('phoneNumber', 'String');
     $toContact = CRM_Utils_Request::retrieve('cid', 'String');
     $cid = CRM_Core_Session::singleton()->get('userID');
     $toName = rawurlencode(CRM_Contact_BAO_Contact::displayName($toContact));
     $fromName = rawurlencode(CRM_Contact_BAO_Contact::displayName($cid));
-    $twilio = CRM_Core_OptionGroup::values('twilio_auth', TRUE, FALSE, FALSE, NULL, 'name', FALSE);
-    $phone = "";
-    try {
-      $result = civicrm_api3('Phone', 'get', array("contact_id" => $cid, "is_primary" => 1));
-      if ($result['count'] > 0 && isset($result['id'])) {
-        $phone = $result['values'][$result['id']]['phone'];
-      }
-    }
-    catch (CiviCRM_API3_Exception $e) {
-      // Handle error here.
-      $errorMessage = $e->getMessage();
-      $errorCode = $e->getErrorCode();
-      $errorData = $e->getExtraParams();
-      return array(
-        'error' => $errorMessage,
-        'error_code' => $errorCode,
-        'error_data' => $errorData,
-      );
-    }
+    $phone = CRM_Utils_Array::value('twilio_number', $twilio);
 
     if (empty($phone)) {
-      $phone = $twilio['twilio_number'];
+      try {
+        $result = civicrm_api3('Phone', 'get', array("contact_id" => $cid, "is_primary" => 1));
+        if ($result['count'] > 0 && isset($result['id'])) {
+          $phone = $result['values'][$result['id']]['phone'];
+        }
+      }
+      catch (CiviCRM_API3_Exception $e) {
+        // Handle error here.
+        $errorMessage = $e->getMessage();
+        $errorCode = $e->getErrorCode();
+        $errorData = $e->getExtraParams();
+        return array(
+          'error' => $errorMessage,
+          'error_code' => $errorCode,
+          'error_data' => $errorData,
+        );
+      }
     }
     $host = CRM_Utils_System::url('civicrm/call/outbound', "toNumber=$toNumber&toContactName=$toName&fromContactName=$fromName", TRUE, NULL, FALSE, TRUE, FALSE);
     $call = CRM_Clicktocall_BAO_Twilio_Call::create($cid, $phone, $twilio, $host);

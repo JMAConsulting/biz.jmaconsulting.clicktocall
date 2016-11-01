@@ -43,7 +43,6 @@ class CRM_Clicktocall_Page_Dial extends CRM_Core_Page {
       $response->say($sayMessage);
       $toNumber = CRM_Utils_Request::retrieve('toNumber', 'String');
       $toNumber = CRM_Clicktocall_BAO_Twilio_Call::formatPhone($toNumber);
-      $twilio = CRM_Core_OptionGroup::values('twilio_auth', TRUE, FALSE, FALSE, NULL, 'name', FALSE);
       $dialParams = array(
         'timeout' => 20,
       );

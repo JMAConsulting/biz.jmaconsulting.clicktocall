@@ -28,4 +28,10 @@
     <access_callback>1</access_callback>
     <is_public>true</is_public>
   </item>
+  <item>
+    <path>civicrm/callsettings</path>
+    <page_callback>CRM_Clicktocall_Form_CallSettings</page_callback>
+    <title>Twilio Settings</title>
+    <access_arguments>administer CiviCRM</access_arguments>
+  </item>
 </menu>

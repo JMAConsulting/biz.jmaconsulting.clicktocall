@@ -34,21 +34,37 @@
  *
  */
 
-class CRM_Clicktocall_Page_Status extends CRM_Core_Page {
+class CRM_Clicktocall_Form_CallSettings extends CRM_Core_Form {
 
-  function run() {
-    if ($data = $_POST) {
-      $twilio = Civi::settings()->get('civicrm_twilio_settings');
-      $client = new Twilio\Rest\Client($twilio['twilio_account_sid'], $twilio['twilio_auth_token']);
+  function buildQuickForm() {
+    $this->add('text', 'twilio_account_sid', ts('Twilio Account SID'), array(), TRUE);
+    $this->add('text', 'twilio_auth_token', ts('Twilio Auth Token'), array(), TRUE);
+    $this->add('text', 'twilio_number', ts('Twilio Phone Number'), array());
+    $this->addYesNo('is_record', ts('Record Call?'), NULL, TRUE);
 
-      // Get call details.
-      $call = $client->calls($data['CallSid'])->fetch();
-
-      if ($call) {
-        CRM_Clicktocall_BAO_Twilio_Call::createActivity($call, $data);
-      }
-    }
+    $this->addButtons(array(
+      array(
+        'type' => 'submit',
+        'name' => ts("Save"),
+        'isDefault' => TRUE,
+      ),
+      array(
+        'type' => 'cancel',
+        'name' => ts("Cancel"),
+      ),
+    ));
+    parent::buildQuickForm();
   }
 
-}
+  function setDefaultValues() {
+    $defaults = Civi::settings()->get('civicrm_twilio_settings');
+    return $defaults;
+  }
 
+  function postProcess() {
+    $params = $this->controller->exportValues($this->_name);
+    unset($params['qfKey']);
+    unset($params['entryURL']);
+    Civi::settings()->set('civicrm_twilio_settings', $params);
+  }
+}
